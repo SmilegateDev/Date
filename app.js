@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var Post = require('../schema/post');
 require('date-utils');
 
 var indexRouter = require('./routes/index');
@@ -29,21 +30,12 @@ db.once('open',function(){
 
 mongoose.connect('mongodb://localhost:27017/Post');
 
-const Post = new Schema({
-  id:{type: Number, required:true},
-  date:{type: String, required:true}
-},
-{
-  collection: posts,
-  timestamp: true
-});
-
-const init = () => {
+const init = async () => {
   while (true) {
-    if (new Date().toFormat('MM') === "00")
+    if (new Date().toFormat('MI') === "28")
       break;
   }
-
+  
   const postValue = new Post();
 
   postValue.id = 10;
@@ -54,7 +46,7 @@ const init = () => {
       return console.log(err);
       
     console.log("Create Success");
-  });
+  }); 
 }
 
 const getCurrentDate = () => {
