@@ -38,13 +38,15 @@ const Post = new Schema({
   timestamp: true
 });
 
-
-const init = async () => {
-  while (new Date().toFormat('HH24') !== "00");
+const init = () => {
+  while (true) {
+    if (new Date().toFormat('MM') === "00")
+      break;
+  }
 
   const postValue = new Post();
 
-  postValue.id = id;
+  postValue.id = 10;
   postValue.date = getCurrentDate();
   
   await postValue.save(function(err, postvalue){
@@ -53,14 +55,6 @@ const init = async () => {
       
     console.log("Create Success");
   });
-
-  await sleep(86390000); // 23시간 59분 50초 대기
-}
-
-const sleep = (ms) => {
-  return new Promise(resolve=>{
-    setTimeout(resolve,ms)
-  })
 }
 
 const getCurrentDate = () => {
@@ -72,7 +66,8 @@ const getCurrentDate = () => {
   return collection_name;
 }
 
-while (true)
-  init();
+init();
+
+setInterval(init, 86390000);
 
 module.exports = app;
